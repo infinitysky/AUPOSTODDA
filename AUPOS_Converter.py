@@ -6,7 +6,8 @@ import os
 import pyodbc 
 import pandas as pd
 import numpy as np
-
+import xlsxwriter
+import xlrd
 
 
 def closesystem():
@@ -134,7 +135,7 @@ def processProductWithBarCode(connect_string):
 
     DDAExcel = convertToDDAExcel(result,DDAExcel)
 
-    DDAExcel.to_excel(r'outPut.xls', index = False, header=True,engine='openpyxl')
+    DDAExcel.to_excel(r'outPut.xlsx', index = False, header=True,engine='xlsxwriter')
     messagebox.showinfo(title="Process Completed",message="Data Process Completed")
 
 
@@ -268,7 +269,7 @@ class App:
         DB_Name_Box["fg"] = "#333333"
         DB_Name_Box["justify"] = "left"    
         DB_Name_Box.place(x=190,y=260,width=275,height=30)
-        DB_Name_Box.insert(0,'AUPOS_F')
+        #DB_Name_Box.insert(0,'AUPOS_F')
  
 
 
