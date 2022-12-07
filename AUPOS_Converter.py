@@ -9,81 +9,8 @@ import numpy as np
 
 
 
-
-
-
-
-
-def processLinkedList(unprocessedExcelData1, NewExcelDataFrame):
-    x=0
-    for x in range(len(unprocessedExcelData1)):
-        print(x ," / ",len(unprocessedExcelData1))
-        if  unprocessedExcelData1.iloc[x]["barcode"] == unprocessedExcelData1.iloc[x]["S_barcode"]:
-            TemplateData = unprocessedExcelData1.iloc[x]
-            TemplateData["stock_id"]=int(TemplateData["stock_id"])
-            TemplateData = TemplateData.to_frame()
-            TemplateData = TemplateData.transpose()
-            NewExcelDataFrame = pd.concat([NewExcelDataFrame, TemplateData],ignore_index=True)
-            
-            
-            
-        elif unprocessedExcelData1.iloc[x]["barcode"] != unprocessedExcelData1.iloc[x]["S_barcode"]:
-            # found = unprocessedExcelData1[unprocessedExcelData1['barcode'].str.contains(unprocessedExcelData1.iloc[x]["barcode"] )]
-            # checkTimes= found.count()
-            # print(found.count())
-
-            # if unprocessedExcelData1.iloc[x]["barcode"] in unprocessedExcelData1['barcode'].values:
-            #     TemplateData = unprocessedExcelData1.iloc[x]
-            #     TemplateData["barcode"] = unprocessedExcelData1.iloc[x]["S_barcode"]
-            #     TemplateData = TemplateData.to_frame()
-            #     TemplateData = TemplateData.transpose()
-            #     NewExcelDataFrame = pd.concat([NewExcelDataFrame, TemplateData],ignore_index=True)
-                
-
-            # else:
-            #     TemplateData = unprocessedExcelData1.iloc[x]
-            #     TemplateData = TemplateData.to_frame()
-            #     TemplateData = TemplateData.transpose()
-            #     NewExcelDataFrame = pd.concat([NewExcelDataFrame, TemplateData],ignore_index=True)
-
-            #     TemplateData = unprocessedExcelData1.iloc[x]
-            #     TemplateData["barcode"] = unprocessedExcelData1.iloc[x]["S_barcode"]
-            #     TemplateData = TemplateData.to_frame()
-            #     TemplateData = TemplateData.transpose()
-            #     NewExcelDataFrame = pd.concat([NewExcelDataFrame, TemplateData],ignore_index=True)
-            
-            # --Barcode A --
-            TemplateData = unprocessedExcelData1.iloc[x]
-            TemplateData["stock_id"]= int(TemplateData["stock_id"])
-            TemplateData = TemplateData.to_frame()
-            TemplateData = TemplateData.transpose()
-            NewExcelDataFrame = pd.concat([NewExcelDataFrame, TemplateData],ignore_index=True)
-
-            # --Barcode B --
-            TemplateData = unprocessedExcelData1.iloc[x]
-            TemplateData["barcode"] = unprocessedExcelData1.iloc[x]["S_barcode"]
-            TemplateData["stock_id"]= int(TemplateData["stock_id"])
-            TemplateData = TemplateData.to_frame()
-            TemplateData = TemplateData.transpose()
-            NewExcelDataFrame = pd.concat([NewExcelDataFrame, TemplateData],ignore_index=True)
-
-    
-    return NewExcelDataFrame
-                
-
-def processUnlinkedList(unprocessedExcelData2, NewExcelDataFrame):
-    y=0
-    for y in range(len(unprocessedExcelData2)):
-        print(y ," / ",len(unprocessedExcelData2))
-        TemplateData = unprocessedExcelData2.iloc[y]
-        TemplateData["stock_id"]=int(TemplateData["stock_id"])
-        TemplateData = TemplateData.to_frame()
-        TemplateData = TemplateData.transpose()
-        NewExcelDataFrame = pd.concat([NewExcelDataFrame, TemplateData],ignore_index=True)
-
-    
-    return NewExcelDataFrame
-
+def closesystem():
+    sys.exit()
 
 def convertToDDAExcel(SourceData,DDATemplate):
     DDAExcelDataFrame = pd.DataFrame()
@@ -93,10 +20,8 @@ def convertToDDAExcel(SourceData,DDATemplate):
     z=0
     
     for z in range(len(SourceData)):
-        print(z ," / ",len(SourceData))
-        jump=0
+        print(z ," / ",len(SourceData) ," (2)" )
         if pd.notna(SourceData.iloc[z]["stock_id"]):
-                    
             TemplateData=DDATemplate.iloc[0]
             TemplateData["ProductCode(15)"] = SourceData.iloc[z]["stock_id"]
             TemplateData["Description1(100)"] = SourceData.iloc[z]["description"]
@@ -104,7 +29,17 @@ def convertToDDAExcel(SourceData,DDATemplate):
             TemplateData["Description3(100)"] = SourceData.iloc[z]["longdesc"]      
             TemplateData["Category(25)"] = SourceData.iloc[z]["cat1"]
             TemplateData["SalesPrice1(Inc GST)"] = SourceData.iloc[z]["sell"]
+            TemplateData["SalesPrice2(Inc GST)"] = SourceData.iloc[z]["sell2"]
+            TemplateData["SalesPrice3(Inc GST)"] = SourceData.iloc[z]["sell3"]
+            TemplateData["SalesPrice4(Inc GST)"] = SourceData.iloc[z]["sell4"]
+       
             TemplateData["Barcode1(30)"] = SourceData.iloc[z]["barcode"]
+            TemplateData["Barcode2(30)"] = SourceData.iloc[z]["barcode1"]
+            TemplateData["Barcode3(30)"] = SourceData.iloc[z]["barcode2"]
+            TemplateData["Barcode4(30)"] = SourceData.iloc[z]["barcode3"]
+            TemplateData["Barcode5(30)"] = SourceData.iloc[z]["barcode4"]
+            TemplateData["Barcode6(30)"] = SourceData.iloc[z]["barcode5"]
+
             TemplateData["LastOrderPrice(Ex GST)"] = SourceData.iloc[z]["cost"]
 
         
@@ -115,44 +50,10 @@ def convertToDDAExcel(SourceData,DDATemplate):
 
             TemplateData = TemplateData.to_frame()
             TemplateData = TemplateData.transpose()
-            w=1
-            # while(w!=0):
-            #     counter=z+w
-            #     if counter<=len(SourceData):
-            #         checkData = SourceData.iloc[counter]
-            #         if w==1 and SourceData.iloc[z]["stock_id"]==checkData["stock_id"]:
-            #             TemplateData["SalesPrice2(Inc GST)"] = checkData["sell"]
-            #             TemplateData["Barcode2(30)"] = checkData["barcode"]
-            #             w=w+1
-
-            #         elif  w==2 and SourceData.iloc[z]["stock_id"]==checkData["stock_id"]:
-            #             TemplateData["SalesPrice3(Inc GST)"] = checkData["sell"]
-            #             TemplateData["Barcode3(30)"] = checkData["barcode"]
-            #             w=w+1
-
-            #         elif  w==3 and SourceData.iloc[z]["stock_id"]==checkData["stock_id"]:
-            #             TemplateData["SalesPrice4(Inc GST)"] = checkData["sell"]
-            #             TemplateData["Barcode4(30)"] = checkData["barcode"]
-            #             w=w+1
-            #         elif  w==4 and SourceData.iloc[z]["stock_id"]==checkData["stock_id"]:
-            #             TemplateData["SalesPrice5(Inc GST)"] = checkData["sell"]
-            #             TemplateData["Barcode5(30)"] = checkData["barcode"]
-            #             w=w+1
-            #         elif  w==5 and SourceData.iloc[z]["stock_id"]==checkData["stock_id"]:
-            #             TemplateData["SalesPrice6(Inc GST)"] = checkData["sell"]
-            #             TemplateData["Barcode6(30)"] = checkData["barcode"]
-            #             w=w+1
-            #         else:
-            #             w=0
                 
 
-
-
-
-
-
             DDAExcelDataFrame = pd.concat([DDAExcelDataFrame, TemplateData],ignore_index=True)
-            #DDATemplete = DDATemplete.append (TemplateData)
+
 
 
     return DDAExcelDataFrame
@@ -160,53 +61,70 @@ def convertToDDAExcel(SourceData,DDATemplate):
 
 
 
+def processBarcodes(productList,productBarcodeList):
+    finalResult = pd.DataFrame()
+    finalResult["barcode1"]=""
+    finalResult["barcode2"]=""
+    finalResult["barcode3"]=""
+    finalResult["barcode4"]=""
+    finalResult["barcode5"]=""
+    z=0
+    lenth=len(productList)
+    for z in range(len(productList)):
+        print(z ," / ",lenth, " (1)" )
+        TemplateData = productList.iloc[z]
+        
+        
+        T1= pd.DataFrame()
+        
+        T1=productBarcodeList[productBarcodeList["stock_id"] == TemplateData['stock_id']]
+  
+        barCodeLength = len(T1)
+        
+        #print(barCodeLength)
+        if barCodeLength > 1:
+            y=0
+            for y in range (barCodeLength):
+                if T1.iloc[y]["barcode"] !=TemplateData["barcode"]:
+                    name="barcode"+ str(y+1)
+                    TemplateData[name]=T1.iloc[y]["barcode"]
+            
+
+        TemplateData["stock_id"]= int(TemplateData["stock_id"])
+        TemplateData = TemplateData.to_frame()
+        TemplateData = TemplateData.transpose()
+        finalResult = pd.concat([finalResult, TemplateData],ignore_index=True)
+           
+
+    return finalResult
+
+
+         
+
+
 def processProductWithBarCode(connect_string):
     PassSQLServerConnection = pyodbc.connect(connect_string)
 
-    linkedQuery = "SELECT top 50 Stock.*, StockBarcode.stock_id AS S_stock_id, StockBarcode.barcode AS S_barcode FROM Stock, StockBarcode WHERE Stock.stock_id = StockBarcode.stock_id order by Stock.stock_id"
-
-    NonLinkedQuery = "SELECT top 50 Stock.* FROM Stock WHERE Stock.stock_id NOT IN ( SELECT Stock.stock_id FROM Stock, StockBarcode WHERE Stock.stock_id = StockBarcode.stock_id) "
-
-    SqlResult1 = pd.read_sql_query(linkedQuery, PassSQLServerConnection)
-    SqlResult2 = pd.read_sql_query(NonLinkedQuery, PassSQLServerConnection)
-
-    print(SqlResult1.dtypes)
-   
-    # unprocessedExcelData1 = SqlResult1.astype(str)
-    # unprocessedExcelData2 = SqlResult2.astype(str)
-    unprocessedExcelData1 = SqlResult1
-    unprocessedExcelData2 = SqlResult2
-    
-
-
-   
-
-    NewExcelDataFrame = pd.DataFrame()
   
 
-    print("total Linke rows: ")
-    print(len(unprocessedExcelData1))
-
-    
-    print("total unlinked rows: ")
-    print(len(unprocessedExcelData2))
-  
-
-
-    NewExcelDataFrame=processLinkedList(unprocessedExcelData1,NewExcelDataFrame)
-    NewExcelDataFrame=processUnlinkedList(unprocessedExcelData2,NewExcelDataFrame)
+    productListQuery = "SELECT Stock.* FROM Stock order by stock_id"
+    productbarcodeListQuery = "SELECT StockBarcode.* FROM StockBarcode order by stock_id"
 
    
 
-    NewExcelDataFrame=NewExcelDataFrame.astype(str)
-    NewExcelDataFrame=NewExcelDataFrame.drop_duplicates(subset=['barcode'],keep='first', ignore_index=True)
+    productList = pd.read_sql_query(productListQuery, PassSQLServerConnection)
+    productBarcodeList =  pd.read_sql_query(productbarcodeListQuery, PassSQLServerConnection)
+
+    result=processBarcodes(productList,productBarcodeList)
 
     print("total rows: ")
-    print(len(NewExcelDataFrame))
+    print(len(result))
+
+ 
 
     print("Export to new excel")
-    NewExcelDataFrame.to_excel(r'export_dataframe.xlsx', index = True, header=True)
-    print("Process completed")
+    result.to_excel(r'export_dataframe.xlsx', index = True, header=True,engine='xlsxwriter')
+    print("Stage 1 Process completed")
 
     print("Start convert to DDA")
     DDAExcel = pd.DataFrame()
@@ -214,12 +132,13 @@ def processProductWithBarCode(connect_string):
     #DDAExcel=DDADataTemplete.astype(str)
     DDAExcel =DDADataTemplete
 
-    DDAExcel = convertToDDAExcel(NewExcelDataFrame,DDAExcel)
-    
-    #DDAExcel=DDAExcel.drop_duplicates(subset=['stock_id'],keep='first', ignore_index=True)
+    DDAExcel = convertToDDAExcel(result,DDAExcel)
 
-    DDAExcel.to_excel(r'outPut.xls', index = False, header=True)
+    DDAExcel.to_excel(r'outPut.xls', index = False, header=True,engine='openpyxl')
     messagebox.showinfo(title="Process Completed",message="Data Process Completed")
+
+
+
 
     
 def ConnectionTest(connect_string):
@@ -460,7 +379,7 @@ class App:
         TEST_Button["font"] = ft
         TEST_Button["fg"] = "#000000"
         TEST_Button["justify"] = "center"
-        TEST_Button["text"] = "Test DB Connection"
+        TEST_Button["text"] = "Test DB"
         TEST_Button.place(x=250,y=390,width=90,height=45)
         TEST_Button["command"] = testDBSource
 
@@ -472,7 +391,7 @@ class App:
         Close_Button["justify"] = "center"
         Close_Button["text"] = "Close"
         Close_Button.place(x=420,y=390,width=90,height=45)
-        Close_Button["command"] = self.Close_Button_command
+        Close_Button["command"] = closesystem
        
         
 
