@@ -8,6 +8,7 @@ import pandas as pd
 import numpy as np
 import xlsxwriter
 import xlrd
+import wget
 
 
 def closesystem():
@@ -129,6 +130,14 @@ def processProductWithBarCode(connect_string):
 
     print("Start convert to DDA")
     DDAExcel = pd.DataFrame()
+    try:
+        downloadURL="https://download.ziicloud.com/programs/ziiposclassic/ItemImportFormat.xls"
+        local_file="ItemImportFormat.xls"
+        wget.download(downloadURL, local_file)
+    except wget.Error as ex:
+        print("Download Files error")
+        
+
     DDADataTemplete = pd.read_excel('ItemImportFormat.xls', index_col=None,dtype = str)
     #DDAExcel=DDADataTemplete.astype(str)
     DDAExcel =DDADataTemplete
